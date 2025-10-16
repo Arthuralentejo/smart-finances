@@ -1,0 +1,57 @@
+[project]
+name = "smart-finances"
+version = "0.1.0"
+description = "A Personal Finance Manager POC using LLMs for transaction extraction"
+authors = [
+    {name = "Arthur"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "streamlit (>=1.52.2,<2.0.0)",
+    "langgraph (>=1.0.5,<2.0.0)",
+    "langchain (>=1.2.3,<2.0.0)",
+    "langchain-openai (>=1.1.7,<2.0.0)",
+    "pydantic (>=2.12.5,<3.0.0)",
+    "sqlalchemy (>=2.0.45,<3.0.0)",
+    "pandas (>=2.3.3,<3.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "paddlepaddle (>=3.0.0,<4.0.0)",
+    "paddleocr (>=3.0.0,<4.0.0)",
+    "pdf2image (>=1.17.0,<2.0.0)",
+    "tabulate (>=0.9.0,<0.10.0)",
+    "langchain-community (>=0.4.1,<0.5.0)",
+    "fastapi (>=0.115.0,<1.0.0)",
+    "uvicorn (>=0.34.0,<1.0.0)",
+    "python-multipart (>=0.0.20,<1.0.0)",
+    "httpx (>=0.28.0,<1.0.0)",
+    "pydantic-settings (>=2.12.0,<3.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=6.0.0,<7.0.0)",
+    "ruff (>=0.9.0,<1.0.0)",
+    "mypy (>=1.14.0,<2.0.0)"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_ignores = true
+ignore_missing_imports = true
