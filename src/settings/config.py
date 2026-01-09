@@ -1,11 +1,13 @@
-from pydantic import BaseSettings, ConfigDict
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     """Runtime settings loaded from environment variables."""
 
-    model_config = ConfigDict(extra="ignore")
-    ocr_service_url: str = "http://paddle-ocr:8001/ocr"
+    model_config = SettingsConfigDict(extra="ignore")
+    ocr_service_base_url: str = "http://paddle-ocr:8001"
+    ocr_service_timeout: int = 60
+    tavily_api_key: str | None = None
 
 
 settings = Settings()

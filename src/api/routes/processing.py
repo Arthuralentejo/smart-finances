@@ -40,7 +40,7 @@ async def process_document(
 
         transactions = [
             TransactionResponse(
-                date=txn.date,
+                date=txn.transaction_date,
                 merchant=txn.merchant,
                 description=txn.description,
                 amount=txn.amount,

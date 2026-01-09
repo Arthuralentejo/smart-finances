@@ -1,12 +1,18 @@
 """FastAPI application entry point."""
 
 from contextlib import asynccontextmanager
+from logging import getLogger
 
+import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routes import chat, processing
 from src.graphs import build_processing_graph
+from src.parsers import OCRClient
+from src.settings.config import settings
+
+logger = getLogger(__name__)
 
 
 @asynccontextmanager
@@ -15,9 +21,18 @@ async def lifespan(app: FastAPI):
 
     Initializes resources on startup and cleans up on shutdown.
     """
-    processing_graph = build_processing_graph()
+    client = httpx.AsyncClient(
+        base_url=settings.ocr_service_base_url, timeout=settings.ocr_service_timeout
+    )
+    ocr_client = OCRClient(client)
+    processing_graph = build_processing_graph(ocr_client)
+    logger.debug("Application startup complete")
 
-    yield {"processing_graph": processing_graph}
+    try:
+        yield {"processing_graph": processing_graph}
+    finally:
+        await ocr_client.aclose()
+        logger.debug("Application shutdown complete")
 
 
 app = FastAPI(

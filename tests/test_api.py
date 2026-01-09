@@ -72,7 +72,7 @@ def test_process_csv_with_mocked_graph(client_with_mock_graph, mock_graph):
     # Create mock transactions
     mock_transactions = [
         Transaction(
-            date=date(2024, 1, 15),
+            transaction_date=date(2024, 1, 15),
             merchant="Grocery Store",
             description="Weekly groceries",
             amount=-85.50,
