@@ -51,12 +51,13 @@ def build_categorizer_node():
             for t in transactions
         )
 
-        result = await agent.ainvoke({
-            "messages": [(
-                "user",
-                f"Review and categorize these transactions:\n\n{transaction_text}"
-            )]
-        })
+        result = await agent.ainvoke(
+            {
+                "messages": [
+                    ("user", f"Review and categorize these transactions:\n\n{transaction_text}")
+                ]
+            }
+        )
 
         structured_response = result.get("structured_response")
         if structured_response is None:

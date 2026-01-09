@@ -1,9 +1,8 @@
 """LLM client initialization and configuration."""
 
-import os
-
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+
 from src.settings.config import settings
 
 load_dotenv()

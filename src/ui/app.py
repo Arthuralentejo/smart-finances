@@ -48,9 +48,7 @@ def main():
             help="Upload a PDF or CSV bank statement",
         )
 
-        process_button = st.button(
-            "Process", type="primary", disabled=not uploaded_file
-        )
+        process_button = st.button("Process", type="primary", disabled=not uploaded_file)
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -83,8 +81,7 @@ def main():
                     st.error(f"API error: {e.response.text}")
                 except httpx.ConnectError:
                     st.error(
-                        f"Could not connect to API at {API_URL}. "
-                        "Make sure the backend is running."
+                        f"Could not connect to API at {API_URL}. Make sure the backend is running."
                     )
                 except Exception as e:
                     st.error(f"Error: {str(e)}")
@@ -111,9 +108,7 @@ def main():
                 try:
                     response = send_chat_query(prompt)
 
-                    st.session_state.messages.append(
-                        {"role": "assistant", "content": response}
-                    )
+                    st.session_state.messages.append({"role": "assistant", "content": response})
 
                     with chat_container:
                         with st.chat_message("assistant"):
@@ -121,21 +116,16 @@ def main():
 
                 except httpx.HTTPStatusError as e:
                     error_msg = f"API error: {e.response.text}"
-                    st.session_state.messages.append(
-                        {"role": "assistant", "content": error_msg}
-                    )
+                    st.session_state.messages.append({"role": "assistant", "content": error_msg})
                     with chat_container:
                         with st.chat_message("assistant"):
                             st.error(error_msg)
 
                 except httpx.ConnectError:
                     error_msg = (
-                        f"Could not connect to API at {API_URL}. "
-                        "Make sure the backend is running."
+                        f"Could not connect to API at {API_URL}. Make sure the backend is running."
                     )
-                    st.session_state.messages.append(
-                        {"role": "assistant", "content": error_msg}
-                    )
+                    st.session_state.messages.append({"role": "assistant", "content": error_msg})
                     with chat_container:
                         with st.chat_message("assistant"):
                             st.error(error_msg)
