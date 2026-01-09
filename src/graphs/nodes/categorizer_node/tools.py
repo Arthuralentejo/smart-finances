@@ -1,6 +1,6 @@
 """Tools for the categorizer agent."""
 
-from langchain_community.tools import TavilySearchResults
+from langchain_tavily import TavilySearch
 
 
 def create_categorizer_tools() -> list:
@@ -9,7 +9,7 @@ def create_categorizer_tools() -> list:
     Returns:
         List of tools for the categorizer agent.
     """
-    search_tool = TavilySearchResults(
+    search_tool = TavilySearch(
         name="search_company",
         description=(
             "Search the internet for information about a company or merchant. "
