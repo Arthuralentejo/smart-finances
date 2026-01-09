@@ -6,7 +6,6 @@ import httpx
 import pandas as pd
 import streamlit as st
 
-# API base URL (can be configured via environment variable)
 API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 
@@ -32,7 +31,6 @@ def send_chat_query(query: str) -> str:
 
 def main():
     """Main Streamlit application."""
-    # Page config
     st.set_page_config(
         page_title="Personal Finance Manager",
         page_icon="💰",
@@ -42,7 +40,6 @@ def main():
     st.title("Personal Finance Manager")
     st.markdown("Upload bank statements (PDF/CSV) to extract and analyze transactions.")
 
-    # Sidebar file uploader
     with st.sidebar:
         st.header("Upload Statement")
         uploaded_file = st.file_uploader(
@@ -55,11 +52,9 @@ def main():
             "Process", type="primary", disabled=not uploaded_file
         )
 
-    # Initialize chat history in session state
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Main content area - two columns
     col1, col2 = st.columns([1, 1])
 
     with col1:
@@ -75,10 +70,8 @@ def main():
                             f"Extracted {result['transaction_count']} transactions."
                         )
 
-                        # Display transactions as a dataframe
                         if result["transactions"]:
                             df = pd.DataFrame(result["transactions"])
-                            # Rename columns for display
                             df.columns = ["Date", "Merchant", "Description", "Amount", "Category"]
                             st.dataframe(df, use_container_width=True)
                         else:
@@ -101,34 +94,27 @@ def main():
     with col2:
         st.subheader("Chat with Your Data")
 
-        # Display chat messages from history
         chat_container = st.container(height=400)
         with chat_container:
             for message in st.session_state.messages:
                 with st.chat_message(message["role"]):
                     st.markdown(message["content"])
 
-        # Chat input
         if prompt := st.chat_input("Ask about your transactions..."):
-            # Add user message to chat history
             st.session_state.messages.append({"role": "user", "content": prompt})
 
-            # Display user message
             with chat_container:
                 with st.chat_message("user"):
                     st.markdown(prompt)
 
-            # Get analyst response
             with st.spinner("Analyzing..."):
                 try:
                     response = send_chat_query(prompt)
 
-                    # Add assistant response to chat history
                     st.session_state.messages.append(
                         {"role": "assistant", "content": response}
                     )
 
-                    # Display assistant response
                     with chat_container:
                         with st.chat_message("assistant"):
                             st.markdown(response)
@@ -154,7 +140,6 @@ def main():
                         with st.chat_message("assistant"):
                             st.error(error_msg)
 
-            # Rerun to update the chat display
             st.rerun()
 
 
