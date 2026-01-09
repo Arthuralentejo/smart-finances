@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from src.settings.config import settings
 
 load_dotenv()
 
@@ -18,6 +19,6 @@ def get_llm(temperature: float = 0.0) -> ChatOpenAI:
         Configured ChatOpenAI instance.
     """
     return ChatOpenAI(
-        model=os.getenv("LLM_MODEL", "gpt-4o-mini"),
+        model=settings.llm_model,
         temperature=temperature,
     )
